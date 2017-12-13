@@ -42,7 +42,6 @@
     },
     beforeMount() {
         this.$store.commit('getState')
-        console.log(this.$store.state.LoginState)
     }
   }
 </script>

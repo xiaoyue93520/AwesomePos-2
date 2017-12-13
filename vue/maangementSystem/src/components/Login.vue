@@ -47,10 +47,10 @@ export default {
           username: _this.username,
           password: _this.password
         }
-      }).then(function(res) {
+      }).then((res) => {
         if(res.data.ecode === "000000") {
-          _this.$store.commit('signIn')
-         _this.$router.push({path: '/'})
+          this.$store.commit('signIn')
+          this.$router.push({path: '/'})
         }
       }).catch(function(res) {
         console.log(res)

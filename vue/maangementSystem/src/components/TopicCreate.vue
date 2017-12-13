@@ -54,15 +54,14 @@
           this.errorText = '内容不能为空'
           return
         }
-         let _this = this
+
         this.$http.post('https://cnodejs.org/api/v1/topics', {
           accesstoken: _this.$store.state.AccessToken,
           title: _this.title,
           tab: _this.tab,
           content: _this.content
-        }).then(function (data) {
-          console.log(data.data.topic_id)
-          _this.$router.push('/topic/'+ data.data.topic_id)
+        }).then(data => {
+          this.$router.push('/topic/'+ data.data.topic_id)
         })
 
       }

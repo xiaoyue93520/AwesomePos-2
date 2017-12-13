@@ -2,25 +2,11 @@
   <div>
     <div class="panel">
       <div class="header">
-              <span class="topic-tab"
-                    :class="{'current-tab' : (currentTab === 'all')}"
-                    @click="changeTab('all')">全部</span>
-
-        <span class="topic-tab"
-              :class="{'current-tab' : (currentTab === 'good')}"
-              @click="changeTab('good')">精华</span>
-
-        <span class="topic-tab"
-              :class="{'current-tab' : (currentTab === 'share')}"
-              @click="changeTab('share')">分享</span>
-
-        <span class="topic-tab"
-              :class="{'current-tab' : (currentTab === 'ask')}"
-              @click="changeTab('ask')">问答</span>
-
-        <span class="topic-tab"
-              :class="{'current-tab' : (currentTab === 'job')}"
-              @click="changeTab('job')">招聘</span>
+        <span class="topic-tab" :class="{'current-tab' : (currentTab === 'all')}" @click="changeTab('all')">全部</span>
+        <span class="topic-tab" :class="{'current-tab' : (currentTab === 'good')}" @click="changeTab('good')">精华</span>
+        <span class="topic-tab" :class="{'current-tab' : (currentTab === 'share')}" @click="changeTab('share')">分享</span>
+        <span class="topic-tab" :class="{'current-tab' : (currentTab === 'ask')}" @click="changeTab('ask')">问答</span>
+        <span class="topic-tab" :class="{'current-tab' : (currentTab === 'job')}" @click="changeTab('job')">招聘</span>
       </div>
 
       <div class="inner">
@@ -45,6 +31,15 @@
               </router-link >
             </div>
           </div>
+          <div class="page-panel">
+            <el-pagination
+              :total="120"
+              :page-size="20"
+              layout="prev, pager, next"
+              background
+              @current-change="getTabList"
+            ></el-pagination>
+          </div>
         </div>
       </div>
     </div>
@@ -60,26 +55,23 @@
       }
     },
     created:function() {
-      this.getTabList('all')
+      this.getTabList(1, 'all')
     },
     methods: {
       changeTab: function(tab) {
         this.currentTab = tab
         this.getTabList(tab)
       },
-      getTabList: function (tabStr) {
-        const _this = this;
+      getTabList: function (page) {
+        const tab = this.currentTab;
         this.$http.get("https://cnodejs.org/api/v1/topics",{
           params: {
-            page: 1,
-            tab: tabStr,
+            page: page,
+            tab: tab,
             limit: 20,
           }
-        }).then(function(res) {
-          var data = res.data;
-          if(data) {
-            _this.topicList = data.data;
-          }
+        }).then((res) => {
+          this.topicList = res.data.data;
         })
       }
     }
